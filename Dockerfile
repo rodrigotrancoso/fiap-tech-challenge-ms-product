@@ -1,5 +1,5 @@
 # Usa a imagem oficial do Node.js 20
-FROM node:20
+FROM node:22-slim
 
 # Define o diretório de trabalho dentro do container
 WORKDIR /usr/src/app
