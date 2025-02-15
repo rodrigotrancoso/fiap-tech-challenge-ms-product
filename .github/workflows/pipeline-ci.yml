@@ -36,6 +36,12 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Generate Image Tags
+        id: tags
+        run: |
+          echo "SHA_TAG=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+          echo "DATE_TAG=$(date +'%Y%m%d')-${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+
       - name: Build and push image to Amazon ECR
         uses: docker/build-push-action@v6
         with:
@@ -43,6 +49,7 @@ jobs:
           push: true
           file: ./Dockerfile
           tags: |
-            ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ vars.DOCKER_IMAGE_VERSION }}
+            ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ steps.tags.outputs.SHA_TAG }}
+            ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ steps.tags.outputs.DATE_TAG }}
             ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:latest
 
