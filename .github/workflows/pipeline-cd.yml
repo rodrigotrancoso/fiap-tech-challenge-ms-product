@@ -9,19 +9,23 @@ on:
 jobs:
   cd:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-      actions: read
     steps: 
-      - name: Autenticar na AWS
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      - name: Configurar o kubectl
-        run: aws eks update-kubeconfig --name ${{ vars.K8S_CLUSTER_NAME }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Configure kubectl
+        run: aws eks update-kubeconfig --name ${{ vars.K8S_CLUSTER_NAME }} --region ${{ vars.AWS_REGION }}
 
       - name: Replace secrets in deployment
         env:
@@ -31,18 +35,17 @@ jobs:
           DB_USER: ${{ vars.DB_USER }}
           DB_NAME: ${{ vars.DB_NAME }}
         run: |
-          sed -i "s|\${DB_PASSWORD}|$DB_PASSWORD|g" k8s/ms-product-deployment.yaml
+          sed -i "s|\${DB_PASSWORD}|$DB_PASSWORD|g" k8s/secrets.yaml
           sed -i "s|\${DB_HOST}|$DB_HOST|g" k8s/ms-product-deployment.yaml
           sed -i "s|\${DB_PORT}|$DB_PORT|g" k8s/ms-product-deployment.yaml
           sed -i "s|\${DB_USER}|$DB_USER|g" k8s/ms-product-deployment.yaml
           sed -i "s|\${DB_NAME}|$DB_NAME|g" k8s/ms-product-deployment.yaml
 
-      - name: Deploy dos manifestos no Kubernetes
+      - name: Deploy to Kubernetes
         uses: Azure/k8s-deploy@v5
         with:
           manifests: |
             ./k8s/ms-product-deployment.yaml
           images: |
-            ${{ vars.DOCKERHUB_USERNAME }}/fiap-tech-challenge-ms-product:${{ vars.DOCKER_IMAGE_DEPLOY_VERSION }}
+            ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ vars.DOCKER_IMAGE_DEPLOY_VERSION }}
 
-    
