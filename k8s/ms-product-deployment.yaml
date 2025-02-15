@@ -29,7 +29,10 @@ spec:
             - name: DB_USER
               value: ${DB_USER}
             - name: DB_PASSWORD
-              value: ${DB_PASSWORD}
+              valueFrom:
+                secretKeyRef:
+                  name: ms-product-secret
+                  key: db_password
             - name: DB_NAME
               value: ${DB_NAME}
 
