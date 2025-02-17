@@ -6,6 +6,7 @@ on:
       - 'src/**'
       - 'index.js'
       - 'Dockerfile'
+      - 'config/database.js'
     branches:
       - master
 
