@@ -12,6 +12,7 @@ spec:
       labels:
         app: ms-product
     spec:
+      serviceAccountName: rds-service-account
       containers:
         - name: ms-product
           image: 640168416591.dkr.ecr.us-east-1.amazonaws.com/fastfood/ms-product:latest
