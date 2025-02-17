@@ -52,7 +52,7 @@ describe("Product Service", () => {
                 },
             ];
 
-            Product.find.mockResolvedValue(products);
+            Product.findAll.mockResolvedValue(products);
 
             const result = await ProductService.getProducts();
 
@@ -60,7 +60,7 @@ describe("Product Service", () => {
         });
 
         it("should throw an error when an error occurs", async () => {
-            Product.find.mockRejectedValue(new Error("Error"));
+            Product.findAll.mockRejectedValue(new Error("Error"));
 
             await expect(ProductService.getProducts()).rejects.toThrow("Error");
         });
@@ -75,7 +75,7 @@ describe("Product Service", () => {
                 category: "Food",
             };
 
-            Product.findById.mockResolvedValue(product);
+            Product.findByPk.mockResolvedValue(product);
 
             const result = await ProductService.findByIdProduct("id");
 
@@ -83,7 +83,7 @@ describe("Product Service", () => {
         });
 
         it("should throw an error when an error occurs", async () => {
-            Product.findById.mockRejectedValue(new Error("Error"));
+            Product.findByPk.mockRejectedValue(new Error("Error"));
 
             await expect(ProductService.findByIdProduct("id")).rejects.toThrow("Error");
         });
@@ -98,7 +98,8 @@ describe("Product Service", () => {
                 category: "Food",
             };
 
-            Product.findByIdAndUpdate.mockResolvedValue(product);
+            Product.update.mockResolvedValue(product);
+            Product.findByPk.mockResolvedValue(product);
 
             const result = await ProductService.updateProduct("id", product);
 
@@ -113,7 +114,7 @@ describe("Product Service", () => {
                 category: "Food",
             };
 
-            Product.findByIdAndUpdate.mockRejectedValue(new Error("Error"));
+            Product.update.mockRejectedValue(new Error("Error"));
 
             await expect(ProductService.updateProduct("id", product)).rejects.toThrow("Error");
         });

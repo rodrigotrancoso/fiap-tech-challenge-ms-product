@@ -1,5 +1,5 @@
 {
-  "name": "fiap-tech-challenge-product",
+  "name": "fiap-tech-challenge-ms-product",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -22,7 +22,6 @@
     "dotenv": "^16.4.7",
     "enum": "^3.0.4",
     "express": "^4.21.2",
-    "mongoose": "^8.10.0",
     "pg": "^8.13.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.5"

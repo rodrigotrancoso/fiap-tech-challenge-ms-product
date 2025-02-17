@@ -29,10 +29,12 @@ Product.init(
             allowNull: false
         },
         createdAt: {
+            field: 'created_at',
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
         },
         updatedAt: {
+            field: 'updated_at',
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW
         }

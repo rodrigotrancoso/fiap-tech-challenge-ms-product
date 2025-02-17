@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: ms-product
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: ms-product
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: ms-product
-          image: RaildoBru/fiap-tech-challenge-product
+          image: rodrigotrancoso/fiap-tech-challenge-ms-product
           resources:
             limits:
               memory: "128Mi"
@@ -23,18 +23,34 @@ spec:
             - containerPort: 3002
           env:
             - name: DB_HOST
-              value: ${DB_HOST}
+              valueFrom:
+                secretKeyRef:
+                  name: ms-product-secret
+                  key: postgres_host
             - name: DB_PORT
-              value: ${DB_PORT}
+              valueFrom:
+                secretKeyRef:
+                  name: ms-product-secret
+                  key: postgres_port
             - name: DB_USER
-              value: ${DB_USER}
+              valueFrom:
+                secretKeyRef:
+                  name: ms-product-secret
+                  key: postgres_user
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: ms-product-secret
-                  key: db_password
+                  key: postgres_password
             - name: DB_NAME
-              value: ${DB_NAME}
+              valueFrom:
+                secretKeyRef:
+                  name: ms-product-secret
+                  key: postgres_database
+          livenessProbe:
+            httpGet:
+              path: /health-check
+              port: 3002
 
 ---
 apiVersion: v1
@@ -46,5 +62,5 @@ spec:
   selector:
     app: ms-product
   ports:
-    - port: 8080
+    - port: 80
       targetPort: 3002
