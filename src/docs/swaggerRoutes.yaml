@@ -1,89 +1,89 @@
 paths:
-  /api/v1/customer/{document}:
-    get:
-      summary: Identifica o cliente baseado no documento
-      tags:
-        - Customer
-      responses:
-        200:
-          description: Cliente identificado com sucesso
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    example: "b43a93cb-dbf1-4b52-bb85-44218404ec2c"
-                  name:
-                    type: string
-                    example: "email"
-                  email:
-                    type: string
-                    example: "email@email.com"
-                  document:
-                    type: string
-                    example: "656565566"
-        400:
-          description: Documento não fornecido
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Documento não fornecido"
-  /api/v1/customer:
-    post:
-      summary: Cadastra um novo cliente
-      tags:
-        - Customer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: "João Silva"
-                email:
-                  type: string
-                  example: "joao.silva@email.com"
-                document:
-                  type: string
-                  example: "12345678901"
-      responses:
-        201:
-          description: Cliente cadastrado com sucesso
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    example: "b43a93cb-dbf1-4b52-bb85-44218404ec2c"
-                  name:
-                    type: string
-                    example: "João Silva"
-                  email:
-                    type: string
-                    example: "joao.silva@email.com"
-                  document:
-                    type: string
-                    example: "12345678901"
-        400:
-          description: Campos obrigatórios não fornecidos
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Campos obrigatórios não fornecidos"
+  #/api/v1/customer/{document}:
+  #  get:
+  #    summary: Identifica o cliente baseado no documento
+  #    tags:
+  #      - Customer
+  #    responses:
+  #      200:
+  #        description: Cliente identificado com sucesso
+  #        content:
+  #          application/json:
+  #            schema:
+  #              type: object
+  #              properties:
+  #                id:
+  #                  type: string
+  #                  example: "b43a93cb-dbf1-4b52-bb85-44218404ec2c"
+  #                name:
+  #                  type: string
+  #                  example: "email"
+  #                email:
+  #                  type: string
+  #                  example: "email@email.com"
+  #                document:
+  #                  type: string
+  #                  example: "656565566"
+  #      400:
+  #        description: Documento não fornecido
+  #        content:
+  #          application/json:
+  #            schema:
+  #              type: object
+  #              properties:
+  #                message:
+  #                  type: string
+  #                  example: "Documento não fornecido"
+  #/api/v1/customer:
+  #  post:
+  #    summary: Cadastra um novo cliente
+  #    tags:
+  #      - Customer
+  #    requestBody:
+  #      content:
+  #        application/json:
+  #          schema:
+  #            type: object
+  #            properties:
+  #              name:
+  #                type: string
+  #                example: "João Silva"
+  #              email:
+  #                type: string
+  #                example: "joao.silva@email.com"
+  #              document:
+  #                type: string
+  #                example: "12345678901"
+  #    responses:
+  #      201:
+  #        description: Cliente cadastrado com sucesso
+  #        content:
+  #          application/json:
+  #            schema:
+  #              type: object
+  #              properties:
+  #                id:
+  #                  type: string
+  #                  example: "b43a93cb-dbf1-4b52-bb85-44218404ec2c"
+  #                name:
+  #                  type: string
+  #                  example: "João Silva"
+  #                email:
+  #                  type: string
+  #                  example: "joao.silva@email.com"
+  #                document:
+  #                  type: string
+  #                  example: "12345678901"
+  #      400:
+  #        description: Campos obrigatórios não fornecidos
+  #        content:
+  #          application/json:
+  #            schema:
+  #              type: object
+  #              properties:
+  #                message:
+  #                  type: string
+  #                  example: "Campos obrigatórios não fornecidos"
   /api/v1/products:
     get:
       summary: Retorna a lista de produtos
@@ -462,64 +462,64 @@ paths:
                         example: 1
         400:
           description: Dados incompletos para criação de pedido
-  /api/v1/orders/status:
-    get:
-      summary: Retorna a lista de pedidos ordenados por pedidos "Prontos" criados pela data mais antiga
-      tags:
-        - Orders
-      responses:
-        200:
-          description: Lista de pedidos ordenada com sucesso
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    _id:
-                      type: string
-                      example: "670de28b82f93e1a75a36ec2"
-                    customerId:
-                      type: string
-                      example: "66fa13bda49ad20e4fe1b5ba"
-                    products:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-                            example: "Batata"
-                          price:
-                            type: number
-                            example: 1.2
-                          quantity:
-                            type: integer
-                            example: 1
-                          description:
-                            type: string
-                            example: "Batata frita"
-                          category:
-                            type: string
-                            example: "Food"
-                    total:
-                      type: number
-                      example: 32.08
-                    createdAt:
-                      type: string
-                      format: date-time
-                      example: "2024-10-15T03:33:31.269Z"
-                    updatedAt:
-                      type: string
-                      format: date-time
-                      example: "2024-10-15T03:33:31.269Z"
-                    status:
-                      type: string
-                      example: "Ready"
-                    statusNum:
-                      type: integer
-                      example: 3
+  #/api/v1/orders/:
+  #  get:
+  #    summary: Retorna a lista de pedidos ordenados por pedidos "Prontos" criados pela data mais antiga
+  #    tags:
+  #      - Orders
+  #    responses:
+  #      200:
+  #        description: Lista de pedidos ordenada com sucesso
+  #        content:
+  #          application/json:
+  #            schema:
+  #              type: array
+  #              items:
+  #                type: object
+  #                properties:
+  #                  _id:
+  #                    type: string
+  #                    example: "670de28b82f93e1a75a36ec2"
+  #                  customerId:
+  #                    type: string
+  #                    example: "66fa13bda49ad20e4fe1b5ba"
+  #                  products:
+  #                    type: array
+  #                    items:
+  #                      type: object
+  #                      properties:
+  #                        name:
+  #                          type: string
+  #                          example: "Batata"
+  #                        price:
+  #                          type: number
+  #                          example: 1.2
+  #                        quantity:
+  #                          type: integer
+  #                          example: 1
+  #                        description:
+  #                          type: string
+  #                          example: "Batata frita"
+  #                        category:
+  #                          type: string
+  #                          example: "Food"
+  #                  total:
+  #                    type: number
+  #                    example: 32.08
+  #                  createdAt:
+  #                    type: string
+  #                    format: date-time
+  #                    example: "2024-10-15T03:33:31.269Z"
+  #                  updatedAt:
+  #                    type: string
+  #                    format: date-time
+  #                    example: "2024-10-15T03:33:31.269Z"
+  #                  status:
+  #                    type: string
+  #                    example: "Ready"
+  #                  statusNum:
+  #                    type: integer
+  #                    example: 3
   /api/v1/orders/{id}:
     get:
       summary: Retorna um pedido específico pelo ID
@@ -585,8 +585,8 @@ paths:
                     example: 3
         404:
           description: Pedido não encontrado
-  /api/v1/orders/{id}/status:
-    put:
+  api/v1/orders/{id}:
+    patch:
       summary: Atualiza o status de um pedido para "Preparing"
       tags:
         - Orders
